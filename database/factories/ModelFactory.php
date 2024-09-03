@@ -1,6 +1,6 @@
 <?php
 
-namespace Creacoon\QueueTile\Database\Factories;
+namespace Creacoon\JiraQueueServiceTile\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 

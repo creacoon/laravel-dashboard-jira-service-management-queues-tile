@@ -1,11 +1,11 @@
 <?php
 
-namespace Creacoon\QueueTile;
+namespace Creacoon\JiraQueueServiceTile;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 
-class FetchDataFromJiraCommand extends Command
+class FetchDataFromJiraQueueCommand extends Command
 {
     protected $signature = 'fetch:queue-jira-data';
     protected $description = 'Fetch queue data using the Jira API';
@@ -51,7 +51,7 @@ class FetchDataFromJiraCommand extends Command
                 ];
                 $i++;
             }
-            JiraStore::make()->setData($processedQueueData);
+            JiraQueueTileStore::make()->setData($processedQueueData);
             $this->info('All done!');
         } else{
             $this->error('failed to fetch data' . $queueResponse->status());

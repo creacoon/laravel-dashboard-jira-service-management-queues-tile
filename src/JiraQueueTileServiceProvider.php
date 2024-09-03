@@ -1,14 +1,14 @@
 <?php
 
-namespace Creacoon\QueueTile;
+namespace Creacoon\JiraQueueServiceTile;
 
-use Creacoon\QueueTile\QueueTileComponent;
+use Creacoon\JiraQueueServiceTile\JiraQueueTileComponent;
 use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Creacoon\QueueTile\FetchDataFromJiraCommand;
+use Creacoon\JiraQueueServiceTile\FetchDataFromJiraQueueCommand;
 
-class QueueTileServiceProvider extends PackageServiceProvider
+class JiraQueueTileServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
@@ -22,13 +22,13 @@ class QueueTileServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             ->hasViews()
             ->hasMigration('create_skeleton_table')
-            ->hasCommand(FetchDataFromJiraCommand::class);
+            ->hasCommand(FetchDataFromJiraQueueCommand::class);
     }
     public function boot()
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
-                \Creacoon\QueueTile\FetchDataFromJiraCommand::class,
+                \Creacoon\JiraQueueServiceTile\FetchDataFromJiraQueueCommand::class,
             ]);
         }
 
@@ -38,6 +38,6 @@ class QueueTileServiceProvider extends PackageServiceProvider
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'dashboard-queue-tile');
 
-        Livewire::component('queue-tile', QueueTileComponent::class);
+        Livewire::component('queue-tile', JiraQueueTileComponent::class);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Creacoon\QueueTile\Tests;
 
-use Creacoon\QueueTile\QueueTileServiceProvider;
+use Creacoon\QueueTile\JiraQueueTileServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
 
@@ -20,7 +20,7 @@ class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
-            QueueTileServiceProvider::class,
+            JiraQueueTileServiceProvider::class,
         ];
     }
 

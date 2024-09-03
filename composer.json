@@ -1,6 +1,6 @@
 {
-    "name": "creacoon/laravel-dashboard-jira-queue",
-    "description": ":Queue Tile",
+    "name": "creacoon/laravel-dashboard-jira-service-management-queues-tile",
+    "description": "JiraQueueServiceTile",
     "keywords": [
         "creacoon",
         ":package_name"
@@ -35,13 +35,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Creacoon\\QueueTile\\": "src"
+            "Creacoon\\JiraQueueServiceTile\\": "src"
 
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Creacoon\\QueueTile\\Tests\\": "tests"
+            "Creacoon\\JiraQueueServiceTile\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -59,7 +59,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Creacoon\\QueueTile\\QueueTileServiceProvider"
+                "Creacoon\\JiraQueueServiceTile\\JiraQueueTileServiceProvider"
             ]
         }
     },

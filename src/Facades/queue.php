@@ -1,11 +1,11 @@
 <?php
 
-namespace Creacoon\QueueTile\Facades;
+namespace Creacoon\JiraQueueServiceTile\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \Creacoon\QueueTile\queue
+ * @see \Creacoon\JiraQueueServiceTile\queue
  */
 class queue extends Facade
 {

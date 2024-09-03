@@ -1,10 +1,10 @@
 <?php
 
-namespace Creacoon\QueueTile;
+namespace Creacoon\JiraQueueServiceTile;
 use Spatie\Dashboard\Models\Tile;
 
 
-class JiraStore
+class JiraQueueTileStore
 {
     private Tile $tile;
 
