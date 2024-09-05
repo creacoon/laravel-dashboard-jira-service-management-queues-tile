@@ -18,10 +18,10 @@ class JiraQueueTileServiceProvider extends PackageServiceProvider
          * More info: https://github.com/spatie/laravel-package-tools
          */
         $package
-            ->name('skeleton')
+            ->name('queue')
             ->hasConfigFile()
             ->hasViews()
-            ->hasMigration('create_skeleton_table')
+            ->hasMigration('create_queue_table')
             ->hasCommand(FetchDataFromJiraQueueCommand::class);
     }
     public function boot()
