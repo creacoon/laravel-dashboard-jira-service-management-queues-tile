@@ -11,6 +11,6 @@ class queue extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'queue-tile';
+        return 'jira-queue-service-tile';
     }
 }

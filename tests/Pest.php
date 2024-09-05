@@ -1,5 +1,5 @@
 <?php
 
-use Creacoon\QueueTile\Tests\TestCase;
+use Creacoon\JiraQueueServiceTile\Tests\TestCase;
 
 uses(TestCase::class)->in(__DIR__);

@@ -15,7 +15,7 @@ class JiraQueueTileStore
 
     public function __construct()
     {
-        $this->tile = Tile::firstOrCreateForName("QueueTile");
+        $this->tile = Tile::firstOrCreateForName("JiraQueueServiceTile");
     }
 
     public function setData(array $data): self

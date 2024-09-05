@@ -1,8 +1,8 @@
 <?php
 
-namespace Creacoon\QueueTile\Tests;
+namespace Creacoon\JiraQueueServiceTile\Tests;
 
-use Creacoon\QueueTile\JiraQueueTileServiceProvider;
+use Creacoon\JiraQueueServiceTile\JiraQueueTileServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
 

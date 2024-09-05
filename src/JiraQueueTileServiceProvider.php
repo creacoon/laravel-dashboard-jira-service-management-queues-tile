@@ -28,16 +28,16 @@ class JiraQueueTileServiceProvider extends PackageServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
-                \Creacoon\JiraQueueServiceTile\FetchDataFromJiraQueueCommand::class,
+               FetchDataFromJiraQueueCommand::class,
             ]);
         }
 
         $this->publishes([
-            __DIR__ . '/../resources/views' => resource_path('views/creacoon/dashboard-queue-tile'),
-        ], 'dashboard-queue-tile-views');
+            __DIR__ . '/../resources/views' => resource_path('views/creacoon/dashboard-jira-queue-tile'),
+        ], 'dashboard-jira-queue-tile-views');
 
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'dashboard-queue-tile');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'dashboard-jira-queue-tile');
 
-        Livewire::component('queue-tile', JiraQueueTileComponent::class);
+        Livewire::component('jira-queue-service-tile', JiraQueueTileComponent::class);
     }
 }

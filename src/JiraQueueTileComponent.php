@@ -16,9 +16,9 @@ class JiraQueueTileComponent extends Component
 
     public function render()
     {
-        return view('dashboard-queue-tile::tile', [
+        return view('dashboard-jira-queue-tile::tile', [
             'refreshIntervalInSeconds' => config('dashboard.tiles.jira.refresh_interval_in_seconds') ?? 60,
-            'processedQueueData' => JiraQueueTileStore::make()->getData(),
+            'queueValues' => JiraQueueTileStore::make()->getData(),
         ]);
     }
 }
