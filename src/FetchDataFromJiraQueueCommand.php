@@ -9,12 +9,10 @@ class FetchDataFromJiraQueueCommand extends Command
 {
     protected $signature = 'fetch:queue-jira-data';
     protected $description = 'Fetch queue data using the Jira API';
-
     public function handle()
     {
         $apiEmail = 'danielsandzand@gmail.com';
         $apiToken = env('JIRA_API_TOKEN');
-
         $basicAuthToken = base64_encode("$apiEmail:$apiToken");
 
         $queueResponse = Http::withHeaders([
@@ -67,8 +65,6 @@ class FetchDataFromJiraQueueCommand extends Command
                 }
             }
         }
-
-
         JiraQueueTileStore::make()->setData($queueValues);
         $this->info('All done!');
     }
