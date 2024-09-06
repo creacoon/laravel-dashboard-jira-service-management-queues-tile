@@ -4,7 +4,7 @@ namespace Creacoon\JiraQueueServiceTile;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
-
+use Carbon\Carbon;
 class FetchDataFromJiraQueueCommand extends Command
 {
     protected $signature = 'fetch:queue-jira-data';
@@ -43,12 +43,17 @@ class FetchDataFromJiraQueueCommand extends Command
 
                         foreach ($queueRepoData['values'] as $queueItem) {
                             $statusId = $queueItem['fields']['status']['statusCategory']['id'];
+                            $now = Carbon::now();
 
 
-                            if ($statusId == 2) {
+                            if ($statusId == 3 && isset($queueItem['fields']['customfield_10026']['ongoingCycle']['startTime']['iso8601'])) {
+                                $doneTime = Carbon::parse($queueItem['fields']['customfield_10026']['ongoingCycle']['startTime']['iso8601']);
+
+                                if ($doneTime->diffInHours($now) <= 24) {
+                                    $statuses['done']++;
+                                }
+                            }elseif ($statusId == 2) {
                                 $statuses['open']++;
-                            } elseif ($statusId == 3) {
-                                $statuses['done']++;
                             } elseif ($statusId == 4) {
                                 $statuses['in_progress']++;
                             }
