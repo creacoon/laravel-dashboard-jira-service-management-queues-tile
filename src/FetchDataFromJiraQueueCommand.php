@@ -70,8 +70,8 @@ class FetchDataFromJiraQueueCommand extends Command
                 }
             }
         }
-        //replace the data with new data
-        JiraQueueTileStore::make()->setData($queueValues);
+        $dataKey = 'jira_queue_data';
+        JiraQueueTileStore::make()->setData($dataKey, $queueValues);
         $this->info('All done!');
     }
 }

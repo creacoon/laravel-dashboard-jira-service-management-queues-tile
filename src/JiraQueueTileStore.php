@@ -18,15 +18,16 @@ class JiraQueueTileStore
         $this->tile = Tile::firstOrCreateForName("JiraQueueServiceTile");
     }
 
-    public function setData(array $data): self
+    public function setData(string $key, array $data): self
     {
-        $this->tile->putData('QueueInProgressStore', $data);
+        $this->tile->putData($key, $data);
 
         return $this;
     }
 
-    public function getData(): array
+
+    public function getData(string $key): array
     {
-        return$this->tile->getData('QueueInProgressStore') ?? [];
+        return $this->tile->getData($key) ?? [];
     }
 }
