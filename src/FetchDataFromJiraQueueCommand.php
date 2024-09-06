@@ -11,14 +11,14 @@ class FetchDataFromJiraQueueCommand extends Command
     protected $description = 'Fetch queue data using the Jira API';
     public function handle()
     {
-        $apiEmail = 'danielsandzand@gmail.com';
+        $apiEmail = env('JIRA_USER');
         $apiToken = env('JIRA_API_TOKEN');
         $basicAuthToken = base64_encode("$apiEmail:$apiToken");
 
         $queueResponse = Http::withHeaders([
             'Accept' => 'application/json',
             'Authorization' => 'Basic ' . $basicAuthToken,
-        ])->get("https://creacoon-sandbox-218.atlassian.net/rest/servicedeskapi/servicedesk/4/queue");
+        ])->get(env('JIRA_HOST')."/rest/servicedeskapi/servicedesk/4/queue");
 
         $queueValues = [];
 
@@ -35,7 +35,7 @@ class FetchDataFromJiraQueueCommand extends Command
                     $queueRepo = Http::withHeaders([
                         'Accept' => 'application/json',
                         'Authorization' => 'Basic ' . $basicAuthToken,
-                    ])->get("https://creacoon-sandbox-218.atlassian.net/rest/servicedeskapi/servicedesk/4/queue/{$queueId}/issue");
+                    ])->get(env('JIRA_HOST')."/rest/servicedeskapi/servicedesk/4/queue/{$queueId}/issue");
 
                     if ($queueRepo->successful()) {
                         $queueRepoData = $queueRepo->json();
@@ -65,6 +65,7 @@ class FetchDataFromJiraQueueCommand extends Command
                 }
             }
         }
+        //replace the data with new data
         JiraQueueTileStore::make()->setData($queueValues);
         $this->info('All done!');
     }
