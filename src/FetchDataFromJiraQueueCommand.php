@@ -11,6 +11,7 @@ class FetchDataFromJiraQueueCommand extends Command
     protected $description = 'Fetch queue data using the Jira API';
     public function handle()
     {
+        // Here u gather the needed email and the api token for the auth call
         $apiEmail = env('JIRA_USER');
         $apiToken = env('JIRA_API_TOKEN');
         $basicAuthToken = base64_encode("$apiEmail:$apiToken");
@@ -19,7 +20,6 @@ class FetchDataFromJiraQueueCommand extends Command
             'Accept' => 'application/json',
             'Authorization' => 'Basic ' . $basicAuthToken,
         ])->get(env('JIRA_HOST')."/rest/servicedeskapi/servicedesk/4/queue");
-
         $queueValues = [];
 
         if ($queueResponse->successful()) {
