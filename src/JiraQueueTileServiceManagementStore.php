@@ -4,7 +4,7 @@ namespace Creacoon\JiraQueueServiceTile;
 use Spatie\Dashboard\Models\Tile;
 
 
-class JiraQueueTileStore
+class JiraQueueTileServiceManagementStore
 {
     private Tile $tile;
 

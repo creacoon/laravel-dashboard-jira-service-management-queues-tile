@@ -1,6 +1,6 @@
 <?php
 
-namespace Creacoon\HelpscoutTile\Tests;
+namespace Creacoon\JiraQueueServiceTile\Test;
 
 use PHPUnit\Framework\TestCase;
 

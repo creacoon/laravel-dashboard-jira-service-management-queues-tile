@@ -2,10 +2,10 @@
 
 namespace Creacoon\JiraQueueServiceTile;
 
-use Creacoon\JiraQueueServiceTile\JiraQueueTileStore;
+use Creacoon\JiraQueueServiceTile\JiraQueueTileServiceManagementStore;
 use livewire\Component;
 
-class JiraQueueTileComponent extends Component
+class JiraQueueTileServiceManagementComponent extends Component
 {
     public $position;
 
@@ -18,7 +18,7 @@ class JiraQueueTileComponent extends Component
     {
         return view('dashboard-jira-queue-tile::tile', [
             'refreshIntervalInSeconds' => config('dashboard.tiles.jira.refresh_interval_in_seconds') ?? 60,
-            'queueValues' => JiraQueueTileStore::make()->getData('jira_queue_data'),
+            'queueValues' => JiraQueueTileServiceManagementStore::make()->getData('jira_queue_data'),
         ]);
     }
 }

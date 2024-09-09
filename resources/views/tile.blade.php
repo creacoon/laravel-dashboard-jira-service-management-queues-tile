@@ -19,9 +19,9 @@
                 @foreach($queueValues as $queue)
                     <tr>
                         <td class="font-medium text-dimmed text-s uppercase tracking-wide tabular-nums border-b border-gray-700 ">{{ $queue['queue_name'] }}</td>
-                        <td class="font-medium text-dimmed text-s uppercase tracking-wide tabular-nums border-b border-gray-700 ">{{ $queue['queueStatus']['open'] }}</td>
-                        <td class="font-medium text-dimmed text-s uppercase tracking-wide tabular-nums border-b border-gray-700">{{ $queue['queueStatus']['in_progress'] }}</td>
-                        <td class="font-medium text-dimmed text-s uppercase tracking-wide tabular-nums border-b border-gray-700">{{ $queue['queueStatus']['done'] }}</td>
+                        <td class="font-medium text-dimmed text-s uppercase tracking-wide tabular-nums border-b border-gray-700 ">{{ $queue['queue_status']['open_status'] }}</td>
+                        <td class="font-medium text-dimmed text-s uppercase tracking-wide tabular-nums border-b border-gray-700">{{ $queue['queue_status']['in_progress'] }}</td>
+                        <td class="font-medium text-dimmed text-s uppercase tracking-wide tabular-nums border-b border-gray-700">{{ $queue['queue_status']['done_status'] }}</td>
                     </tr>
                 @endforeach
                 </tbody>

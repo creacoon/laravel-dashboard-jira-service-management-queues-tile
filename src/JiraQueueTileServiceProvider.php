@@ -2,7 +2,7 @@
 
 namespace Creacoon\JiraQueueServiceTile;
 
-use Creacoon\JiraQueueServiceTile\JiraQueueTileComponent;
+use Creacoon\JiraQueueServiceTile\JiraQueueTileServiceManagementComponent;
 use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -19,9 +19,7 @@ class JiraQueueTileServiceProvider extends PackageServiceProvider
          */
         $package
             ->name('queue')
-            ->hasConfigFile()
             ->hasViews()
-            ->hasMigration('create_queue_table')
             ->hasCommand(FetchDataFromJiraQueueCommand::class);
     }
     public function boot()
@@ -38,6 +36,6 @@ class JiraQueueTileServiceProvider extends PackageServiceProvider
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'dashboard-jira-queue-tile');
 
-        Livewire::component('jira-queue-service-tile', JiraQueueTileComponent::class);
+        Livewire::component('jira-queue-service-tile', JiraQueueTileServiceManagementComponent::class);
     }
 }
