@@ -3,9 +3,10 @@
     "description": "JiraQueueServiceTile",
     "keywords": [
         "creacoon",
-        "package_name"
+        "laravel",
+        "jira service management"
     ],
-    "homepage": "https://github.com/vendor_slug/package_slug",
+    "homepage": "https://github.com/creacoon/laravel-dashboard-jira-service-management-queues-tile",
     "license": "MIT",
     "authors": [
         {
@@ -15,19 +16,18 @@
     ],
     "require": {
         "php": "^8.1",
-        "livewire/livewire": "^2.12",
+        "livewire/livewire": "^v3.5.6",
         "spatie/laravel-package-tools": "^1.9.2"
     },
     "require-dev": {
-        "nunomaduro/collision": "^6.0",
-        "nunomaduro/larastan": "^2.0.1",
-        "orchestra/testbench": "^7.0",
-        "pestphp/pest": "^1.21",
-        "pestphp/pest-plugin-laravel": "^1.1",
+        "larastan/larastan": "^2.0",
+        "nunomaduro/collision": "^v8.4.0",
+        "orchestra/testbench": "^v9.4.0",
+        "pestphp/pest": "^v2.35.1",
+        "pestphp/pest-plugin-laravel": "^v2.4.0",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan-deprecation-rules": "^1.0",
         "phpstan/phpstan-phpunit": "^1.0",
-        "phpunit/phpunit": "^9.5",
         "spatie/laravel-ray": "^1.26"
     },
     "autoload": {
