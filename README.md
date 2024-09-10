@@ -31,9 +31,9 @@ return [
         'queue_statuses' => [
             'open_status' => 2,
             'in_progress' => 4,
-            'done_status' => 3
         ]
     ],
+    
 ];
 ```
 ## Tile component
