@@ -10,18 +10,18 @@
                 <thead class="text-left border-b border-gray-700" >
                 <tr>
                     <th class="font-medium text-white text-l uppercase tracking-wide tabular-nums">Queue Name</th>
-                    <th class="font-medium text-white text-l uppercase tracking-wide tabular-nums">Open</th>
-                    <th class="font-medium text-white text-l uppercase tracking-wide tabular-nums">In Progress</th>
-                    <th class="font-medium text-white text-l uppercase tracking-wide tabular-nums">Done</th>
+                    @foreach(array_keys($queueValues[0]['queue_status']) as $statusKey)
+                        <th class="font-medium text-white text-l uppercase tracking-wide tabular-nums">{{ ucwords(str_replace('_', ' ', $statusKey)) }}</th>
+                    @endforeach
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($queueValues as $queue)
                     <tr>
                         <td class="font-medium text-dimmed text-s uppercase tracking-wide tabular-nums border-b border-gray-700 ">{{ $queue['queue_name'] }}</td>
-                        <td class="font-medium text-dimmed text-s uppercase tracking-wide tabular-nums border-b border-gray-700 ">{{ $queue['queue_status']['open_status'] }}</td>
-                        <td class="font-medium text-dimmed text-s uppercase tracking-wide tabular-nums border-b border-gray-700">{{ $queue['queue_status']['in_progress'] }}</td>
-                        <td class="font-medium text-dimmed text-s uppercase tracking-wide tabular-nums border-b border-gray-700">{{ $queue['queue_status']['done_status'] }}</td>
+                        @foreach($queue['queue_status'] as $statusValue)
+                            <td class="font-medium text-dimmed text-s uppercase tracking-wide tabular-nums border-b border-gray-700">{{ $statusValue }}</td>
+                        @endforeach
                     </tr>
                 @endforeach
                 </tbody>

@@ -10,19 +10,16 @@ class FetchDataFromJiraQueueCommand extends Command
 {
     //You can run this signature in the terminal php artisan fetch:queue-jira-data
     //This is meant for testing and inserting the data
-    protected $signature = 'fetch:queue-jira-data';
-    protected $description = 'Fetch queue data using the Jira API';
+    protected $signature = 'fetch:queue-jira-service-management-data';
+    protected $description = 'Fetch queue data using the Jira Service Management API';
 
     public function handle()
     {
-        //Here we declare the email and the api token that is used for the authentication
-        $apiEmail = config('atlassian.jira.auth.basic.username');
-        $apiToken = config('atlassian.jira.auth.basic_token.token');
         //Here it is encoded so that we can use it for our auth
-        $basicAuthToken = base64_encode("$apiEmail:$apiToken");
+        $basicAuthToken = base64_encode(config('atlassian.jira.auth.basic.username').":".config('atlassian.jira.auth.basic_token.token'));
         $queueValues = [];
         $page = 1;
-        $perPage = 50;
+        $perPage = 5;
         $queues = [];
         //here we retrieve status data from the dashboard config
         $statusConfig = config('dashboard.tiles.queue_statuses', []);
@@ -35,7 +32,7 @@ class FetchDataFromJiraQueueCommand extends Command
                 'Accept' => 'application/json',
                 'Authorization' => 'Basic ' . $basicAuthToken,
             ])->get(config('atlassian.jira.host')."/rest/servicedeskapi/servicedesk/4/queue", [
-                // here we set the limit and the starting page.
+
                 'start' => ($page - 1) * $perPage,
                 'limit' => $perPage,
             ]);
@@ -48,7 +45,7 @@ class FetchDataFromJiraQueueCommand extends Command
                     if (isset($queue['name'], $queue['id'])) {
                         $queueName = $queue['name'];
                         $queueId = $queue['id'];
-                        // We retrieve the issues of a queue using the queue id and the basic auth method
+
                         $queueRepo = Http::withHeaders([
                             'Accept' => 'application/json',
                             'Authorization' => 'Basic ' . $basicAuthToken,
@@ -95,9 +92,11 @@ class FetchDataFromJiraQueueCommand extends Command
             //While the data count is the same as the limit of the page keep looping when it reaches the limit create new page
         } while (count($queues) == $perPage);
 
-        $dataKey = 'jira_queue_data';
+        $dataKey = 'queue-jira-service-management-data';
         JiraQueueTileServiceManagementStore::make()->setData($dataKey, $queueValues);
 
         $this->info('All done!');
     }
 }
+//Retrieve the issues with the status done
+//Retrieve the issues that are done d
