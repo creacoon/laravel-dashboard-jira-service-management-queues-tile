@@ -9,7 +9,7 @@
 You can install the package via composer:
 
 ```bash
-composer require creacoon/laravel-dashboard-jira-tile
+composer require creacoon/laravel-dashboard-jira-queue-tile
 ```
 
 ## Env file
@@ -21,21 +21,17 @@ JIRA_USER=
 JIRA_API_TOKEN=
 ```
 ### Config file
-In the `dashboard` config file, you must add this configuration in the `tiles` key. The `mailboxes` should contain an array of mailbox id's that you want to use on the dashboard.
+In the `dashboard` config file, you must add this configuration in the `tiles` key.
 
 ```php
 // in config/dashboard.php
-
 return [
     // ...
     'tiles' => [
-         'helpscout' => [
-            'app_id' => env('HELPSCOUT_APP_ID'),
-            'app_secret' => env('HELPSCOUT_APP_SECRET'),
-            'mailboxes' => explode(',', env('HELPSCOUT_MAILBOXES')),
-            'active_tickets_full_alert' => 10,
-            'refresh_interval_in_seconds' => 60,
-            'no_active_tickets_text' => 'There are no tickets!',
+        'queue_statuses' => [
+            'open_status' => 2,
+            'in_progress' => 4,
+            'done_status' => 3
         ]
     ],
 ];
@@ -72,3 +68,6 @@ composer test
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.

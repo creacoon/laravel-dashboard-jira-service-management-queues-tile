@@ -22,7 +22,7 @@ class FetchDataFromJiraQueueCommand extends Command
         $basicAuthToken = base64_encode("$apiEmail:$apiToken");
         $queueValues = [];
         $page = 1;
-        $perPage = 5;
+        $perPage = 50;
         $queues = [];
         //here we retrieve status data from the dashboard config
         $statusConfig = config('dashboard.tiles.queue_statuses', []);
@@ -62,8 +62,11 @@ class FetchDataFromJiraQueueCommand extends Command
                                 $statusId = $queueItem['fields']['status']['statusCategory']['id'];
                                 // Get the current time
                                 $now = Carbon::now();
+                                //here we loop through the statusConfig array, which maps status keys to their ID's
                                 foreach ($statusConfig as $statusKey => $configuredStatusId) {
+                                    //Check if the id's match
                                     if ($statusId == $configuredStatusId) {
+                                        // Here we look if the difference between doneTime and now is less than 24 hours if it is then add the status to the queue.
                                         if ($statusKey == 'done_status' && isset($queueItem['fields']['customfield_10026']['ongoingCycle']['startTime']['iso8601'])) {
                                             $doneTime = Carbon::parse($queueItem['fields']['customfield_10026']['ongoingCycle']['startTime']['iso8601']);
                                             if ($doneTime->diffInHours($now) <= 24) {
@@ -76,6 +79,7 @@ class FetchDataFromJiraQueueCommand extends Command
                                     }
                                 }
                             }
+                            // store all the data in the queueValues array.
                             $queueValues[] = [
                                 'queue_name' => $queueName,
                                 'queue_id' => $queueId,
