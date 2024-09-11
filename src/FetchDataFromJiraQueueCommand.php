@@ -18,6 +18,7 @@ class FetchDataFromJiraQueueCommand extends Command
         $basicAuthToken = base64_encode(config('atlassian.jira.auth.basic.username') . ":" . config('atlassian.jira.auth.basic_token.token'));
         $queueValues = [];
         $statusConfig = config('dashboard.tiles.queue_statuses.statuses', []);
+
         $this->info("Fetching all queue data");
 
         $queueResponse = Http::withHeaders([
@@ -67,28 +68,28 @@ class FetchDataFromJiraQueueCommand extends Command
                                 }
                             }
 
-                            $issues = $issueData;
                             $issuePage++;
                         } else {
                             $this->error("Failed to fetch issues for queue {$queueName}. Status: {$queueRepo->status()}");
-                            break; // Exit loop on failure
+                            break;
                         }
 
-                    } while (count($issues) == $issuesPerPage);
+                    } while (count($issueData) == $issuesPerPage);
 
-                    // JQL query to fetch issues
-                    $jql = 'project = CSS AND (statusCategory IN ("To Do", "In Progress") OR (statusCategory = Done AND updated > startOfDay() AND updated < endOfDay()))';
                     $issuesResponse = Http::withHeaders([
                         'Accept' => 'application/json',
                         'Authorization' => 'Basic ' . $basicAuthToken,
                     ])->get(config('atlassian.jira.host') . "/rest/api/2/search", [
-                        'jql' => $jql,
-                        'maxResults' => 50,
+                        'jql' => 'project = CSS AND (statusCategory IN ("To Do", "In Progress") OR (statusCategory = Done AND updated > startOfDay() AND updated < endOfDay()))',
+                        'maxResults' => 1000,
                     ]);
 
                     if ($issuesResponse->successful()) {
                         $issuesData = $issuesResponse->json();
-                        dump('Issues:', $issuesData);
+                        $doneIssuesToday = count($issuesData['issues'] ?? []);
+                        $this->info("Number of issues done today: {$doneIssuesToday}");
+
+
                     } else {
                         $this->error("Failed to fetch issues for queue {$queueName}. Status: {$issuesResponse->status()}");
                     }
@@ -100,13 +101,14 @@ class FetchDataFromJiraQueueCommand extends Command
                     ];
                 }
             }
+
             dump('Queue Values:', $queueValues);
+
+            $dataKey = 'queue-jira-service-management-data';
+            JiraQueueTileServiceManagementStore::make()->setData($dataKey, $queueValues);
         } else {
             $this->error("Failed to fetch queue data. Status: {$queueResponse->status()}");
         }
-
-        $dataKey = 'queue-jira-service-management-data';
-        JiraQueueTileServiceManagementStore::make()->setData($dataKey, $queueValues);
     }
 
 }
