@@ -48,7 +48,6 @@ class FetchDataFromJiraQueueCommand extends Command
                             'limit' => $issuesPerPage,
                         ]);
 
-
                         if ($queueRepo->successful()) {
                             $queueRepoData = $queueRepo->json();
                             $issueData = $queueRepoData['values'] ?? [];
@@ -77,6 +76,23 @@ class FetchDataFromJiraQueueCommand extends Command
 
                     } while (count($issues) == $issuesPerPage);
 
+                    // JQL query to fetch issues
+                    $jql = 'project = CSS AND (statusCategory IN ("To Do", "In Progress") OR (statusCategory = Done AND updated > startOfDay() AND updated < endOfDay()))';
+                    $issuesResponse = Http::withHeaders([
+                        'Accept' => 'application/json',
+                        'Authorization' => 'Basic ' . $basicAuthToken,
+                    ])->get(config('atlassian.jira.host') . "/rest/api/2/search", [
+                        'jql' => $jql,
+                        'maxResults' => 50,
+                    ]);
+
+                    if ($issuesResponse->successful()) {
+                        $issuesData = $issuesResponse->json();
+                        dump('Issues:', $issuesData);
+                    } else {
+                        $this->error("Failed to fetch issues for queue {$queueName}. Status: {$issuesResponse->status()}");
+                    }
+
                     $queueValues[] = [
                         'queue_name' => $queueName,
                         'queue_id' => $queueId,
@@ -91,8 +107,6 @@ class FetchDataFromJiraQueueCommand extends Command
 
         $dataKey = 'queue-jira-service-management-data';
         JiraQueueTileServiceManagementStore::make()->setData($dataKey, $queueValues);
-
-        $this->info('All done!');
     }
 
 }
