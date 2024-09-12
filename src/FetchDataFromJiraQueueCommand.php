@@ -80,7 +80,7 @@ class FetchDataFromJiraQueueCommand extends Command
                         'Accept' => 'application/json',
                         'Authorization' => 'Basic ' . $basicAuthToken,
                     ])->get(config('atlassian.jira.host') . "/rest/api/2/search", [
-                        'jql' => 'project = CSS AND (statusCategory IN ("To Do", "In Progress") OR (statusCategory = Done AND updated > startOfDay() AND updated < endOfDay()))',
+                        'jql' =>  config('dashboard.tiles.jql_queue_service_management.jql'),
                         'maxResults' => 1000,
                     ]);
 
