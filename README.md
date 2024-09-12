@@ -28,13 +28,16 @@ In the `dashboard` config file, you must add this configuration in the `tiles` k
 return [
     // ...
     'tiles' => [
-        'queue_statuses' => [
-            'open_status' => 2,
-            'in_progress' => 4,
-        ]
+         'queue_statuses' => [
+            'statuses' => [
+                'in_progress' => 4,
+                'open_status' => 2,
+            ],
+        ],
+        'jql_queue_service_management' => [
+            'jql' => 'project = CSS AND (statusCategory IN ("To Do", "In Progress") OR (statusCategory = Done AND updated > startOfDay() AND updated < endOfDay()))',
+        ],
     ],
-    
-];
 ```
 ## Tile component
 
