@@ -1,10 +1,11 @@
-<x-dashboard-tile :position="$position">
+<x-dashboard-tile :position="$position" :refresh-interval="$refreshIntervalInSeconds">
     <div class="p-4 h-full flex flex-col">
         <div class="flex items-center justify-center mb-4">
             <div class="font-medium text-dimmed text-sm uppercase tracking-wide tabular-nums">
                 Queue Overview
             </div>
         </div>
+        @if (!empty($queueValues))
         <div class="flex-grow overflow-y-auto max-h-48">
             <table class="w-full">
                 <thead class="text-left border-b border-gray-700">
@@ -18,7 +19,7 @@
                 <tbody>
                 @foreach($queueValues as $queue)
                     <tr>
-                        <td class="font-medium text-dimmed text-s uppercase tracking-wide tabular-nums border-b border-gray-700 "> {{ $queue['queue_name'] }}</td>
+                        <td class="font-medium text-dimmed text-s uppercase tracking-wide tabular-nums border-b border-gray-700 "> {{$queue['queue_name'] }}</td>
                         @foreach($queue['queue_status'] as $statusValue)
                             <td class="font-medium text-dimmed text-s uppercase tracking-wide tabular-nums border-b border-gray-700">{{ $statusValue }}</td>
                         @endforeach
@@ -27,5 +28,12 @@
                 </tbody>
             </table>
         </div>
+        @else
+            <div class="flex items-center justify-center h-full">
+                <div class="text-center text-dimmed font-medium text-s">
+                    No data found
+                </div>
+            </div>
+        @endif
     </div>
 </x-dashboard-tile>
