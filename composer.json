@@ -1,0 +1,65 @@
+{
+    "name": "creacoon/laravel-dashboard-jira-service-management-queues-tile",
+    "description": "JiraQueueServiceTile",
+    "keywords": [
+        "creacoon",
+        "laravel",
+        "jira service management"
+    ],
+    "homepage": "https://github.com/creacoon/laravel-dashboard-jira-service-management-queues-tile",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Daniels",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "livewire/livewire": "^v3.5.6",
+        "spatie/laravel-package-tools": "^1.9.2"
+    },
+    "require-dev": {
+        "larastan/larastan": "^2.0",
+        "nunomaduro/collision": "^v8.4.0",
+        "orchestra/testbench": "^v9.4.0",
+        "pestphp/pest": "^v2.35.1",
+        "pestphp/pest-plugin-laravel": "^v2.4.0",
+        "phpstan/extension-installer": "^1.1",
+        "phpstan/phpstan-deprecation-rules": "^1.0",
+        "phpstan/phpstan-phpunit": "^1.0",
+        "spatie/laravel-ray": "^1.26"
+    },
+    "autoload": {
+        "psr-4": {
+            "Creacoon\\JiraQueueServiceTile\\": "src"
+
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Creacoon\\JiraQueueServiceTile\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "analyse": "vendor/bin/phpstan analyse",
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Creacoon\\JiraQueueServiceTile\\JiraQueueTileServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
