@@ -18,7 +18,7 @@ class JiraQueueTileServiceManagementComponent extends Component
     {
         return view('dashboard-jira-queue-tile::tile', [
             'refreshIntervalInSeconds' => config('dashboard.tiles.jira.refresh_interval_in_seconds') ?? 60,
-            'queueValues' => JiraQueueTileServiceManagementStore::make()->getData('queue-jira-service-management-data'),
+            'queueValues' => JiraQueueTileServiceManagementStore::make()->getData('fetch-queue-jira-service-management-data'),
         ]);
     }
 }

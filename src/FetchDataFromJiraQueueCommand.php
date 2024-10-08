@@ -10,7 +10,7 @@ class FetchDataFromJiraQueueCommand extends Command
 {
     //You can run this signature in the terminal php artisan fetch:queue-jira-data
     //This is meant for testing and inserting the data
-    protected $signature = 'fetch:queue-jira-service-management-data';
+    protected $signature = 'dashboard:fetch-queue-jira-service-management-data';
     protected $description = 'Fetch queue data using the Jira Service Management API';
 
     public function handle()
@@ -104,7 +104,7 @@ class FetchDataFromJiraQueueCommand extends Command
 
             dump('Queue Values:', $queueValues);
 
-            $dataKey = 'queue-jira-service-management-data';
+            $dataKey = 'fetch-queue-jira-service-management-data';
             JiraQueueTileServiceManagementStore::make()->setData($dataKey, $queueValues);
         } else {
             $this->error("Failed to fetch queue data. Status: {$queueResponse->status()}");
