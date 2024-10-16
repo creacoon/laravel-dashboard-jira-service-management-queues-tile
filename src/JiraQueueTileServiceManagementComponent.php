@@ -2,7 +2,6 @@
 
 namespace Creacoon\JiraQueueServiceTile;
 
-use Creacoon\JiraQueueServiceTile\JiraQueueTileServiceManagementStore;
 use livewire\Component;
 
 class JiraQueueTileServiceManagementComponent extends Component

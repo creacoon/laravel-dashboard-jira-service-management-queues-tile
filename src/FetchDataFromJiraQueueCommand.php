@@ -5,22 +5,20 @@ namespace Creacoon\JiraQueueServiceTile;
 use Illuminate\Console\Command;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
-use Carbon\Carbon;
-//function for fetching the data
+
 class FetchDataFromJiraQueueCommand extends Command
 {
-    //You can run this signature in the terminal php artisan fetch:queue-jira-data
-    //This is meant for testing and inserting the data
     protected $signature = 'dashboard:fetch-queue-jira-service-management-data';
+
     protected $description = 'Fetch queue data using the Jira Service Management API';
 
-    public function handle()
+    public function handle(): int
     {
         $data = [
             'queues' => [],
         ];
 
-        $this->info("Fetching all queue data");
+        $this->info('Fetching all queue data');
 
         $queues = $this->getQueues();
 
@@ -39,18 +37,19 @@ class FetchDataFromJiraQueueCommand extends Command
 
         $data['issues_resolved_today'] = $this->getIssuesHandledTodayCount();
 
-        dump($data);
-
         JiraQueueTileServiceManagementStore::make()->setData($data);
+
+        return self::SUCCESS;
     }
 
     private function getQueues(): array
     {
         $queueResponse = $this->apiClient()
-            ->get(config('dashboard.tiles.jira_service_queues.jira_host') . "/rest/servicedeskapi/servicedesk/4/queue");
+            ->get(config('dashboard.tiles.jira_service_queues.jira_host').'/rest/servicedeskapi/servicedesk/4/queue');
 
         if ($queueResponse->successful()) {
             $queuesData = $queueResponse->json();
+
             return $queuesData['values'];
         }
 
@@ -66,16 +65,16 @@ class FetchDataFromJiraQueueCommand extends Command
         do {
             $this->info("Fetching data for queue {$queueId}, issue page: {$issuePage}");
             $queueRepo = $this->apiClient()
-                ->get(config('dashboard.tiles.jira_service_queues.jira_host') .
+                ->get(config('dashboard.tiles.jira_service_queues.jira_host').
                     "/rest/servicedeskapi/servicedesk/4/queue/{$queueId}/issue", [
-                    'start' => ($issuePage - 1) * $issuesPerPage,
-                    'limit' => $issuesPerPage,
-                ]);
+                        'start' => ($issuePage - 1) * $issuesPerPage,
+                        'limit' => $issuesPerPage,
+                    ]);
 
             if ($queueRepo->successful()) {
                 $queueRepoData = $queueRepo->json();
                 $issueData = $queueRepoData['values'] ?? [];
-                $issueCount =+ count($issueData);
+                $issueCount = +count($issueData);
             } else {
                 $this->error("Failed to fetch issues for queue {$queueId}. Status: {$queueRepo->status()}");
                 break;
@@ -89,8 +88,8 @@ class FetchDataFromJiraQueueCommand extends Command
     private function getIssuesHandledTodayCount(): ?int
     {
         $issuesResponse = $this->apiClient()
-            ->get(config('dashboard.tiles.jira_service_queues.jira_host') . "/rest/api/3/search", [
-                'jql' =>  config('dashboard.tiles.jira_service_queues.resolved_today_jql'),
+            ->get(config('dashboard.tiles.jira_service_queues.jira_host').'/rest/api/3/search', [
+                'jql' => config('dashboard.tiles.jira_service_queues.resolved_today_jql'),
                 'maxResults' => 1000,
             ]);
 
@@ -107,10 +106,8 @@ class FetchDataFromJiraQueueCommand extends Command
     {
         return Http::withHeaders([
             'Accept' => 'application/json',
-            'Authorization' => 'Basic ' . base64_encode(config('dashboard.tiles.jira_service_queues.jira_user') . ":" .
+            'Authorization' => 'Basic '.base64_encode(config('dashboard.tiles.jira_service_queues.jira_user').':'.
                     config('dashboard.tiles.jira_service_queues.jira_api_token')),
         ]);
     }
-
 }
-

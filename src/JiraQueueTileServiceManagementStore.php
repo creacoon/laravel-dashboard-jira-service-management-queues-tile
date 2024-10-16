@@ -1,8 +1,8 @@
 <?php
 
 namespace Creacoon\JiraQueueServiceTile;
-use Spatie\Dashboard\Models\Tile;
 
+use Spatie\Dashboard\Models\Tile;
 
 class JiraQueueTileServiceManagementStore
 {
@@ -10,12 +10,12 @@ class JiraQueueTileServiceManagementStore
 
     public static function make()
     {
-        return new static();
+        return new static;
     }
 
     public function __construct()
     {
-        $this->tile = Tile::firstOrCreateForName("JSMQueuesTile");
+        $this->tile = Tile::firstOrCreateForName('JSMQueuesTile');
     }
 
     public function setData(array $data): self
@@ -24,7 +24,6 @@ class JiraQueueTileServiceManagementStore
 
         return $this;
     }
-
 
     public function getData(string $key): array
     {
