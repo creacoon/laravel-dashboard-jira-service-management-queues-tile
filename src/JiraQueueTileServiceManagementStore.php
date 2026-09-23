@@ -13,7 +13,7 @@ class JiraQueueTileServiceManagementStore
         return new static;
     }
 
-    public function __construct()
+    final public function __construct()
     {
         $this->tile = Tile::firstOrCreateForName('JSMQueuesTile');
     }
