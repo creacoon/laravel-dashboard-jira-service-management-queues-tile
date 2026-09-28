@@ -74,7 +74,7 @@ class FetchDataFromJiraQueueCommand extends Command
             if ($queueRepo->successful()) {
                 $queueRepoData = $queueRepo->json();
                 $issueData = $queueRepoData['values'] ?? [];
-                $issueCount = +count($issueData);
+                $issueCount += count($issueData);
             } else {
                 $this->error("Failed to fetch issues for queue {$queueId}. Status: {$queueRepo->status()}");
                 break;
@@ -87,19 +87,18 @@ class FetchDataFromJiraQueueCommand extends Command
 
     private function getIssuesHandledTodayCount(): ?int
     {
-        $issuesResponse = $this->apiClient()
-            ->get(config('dashboard.tiles.jira_service_queues.jira_host').'/rest/api/3/search', [
+        $countResponse = $this->apiClient()
+            ->post(config('dashboard.tiles.jira_service_queues.jira_host').'/rest/api/3/search/approximate-count', [
                 'jql' => config('dashboard.tiles.jira_service_queues.resolved_today_jql'),
-                'maxResults' => 1000,
             ]);
 
-        if ($issuesResponse->successful()) {
-            $issuesData = $issuesResponse->json();
+        if (! $countResponse->successful()) {
+            $this->error("Failed to fetch the issues resolved today. Status: {$countResponse->status()}");
 
-            return count($issuesData['issues'] ?? []);
+            return null;
         }
 
-        return null;
+        return $countResponse->json('count');
     }
 
     private function apiClient(): PendingRequest
