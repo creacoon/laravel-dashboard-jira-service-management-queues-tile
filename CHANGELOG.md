@@ -4,6 +4,9 @@ All notable changes to `creacoon/laravel-dashboard-jira-queue-tile` will be docu
 
 ## [Unreleased]
 
+### Fixed
+- Fetching a queue with 50 or more issues never finished, because the same first page was requested over and over; it piled up scheduled runs and showed counts like 151100. Queue counts now come from a single request with `includeCount=true`
+
 ## [2.1.0] 2026-09-28
 
 ### Changed
