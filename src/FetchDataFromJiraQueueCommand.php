@@ -30,7 +30,7 @@ class FetchDataFromJiraQueueCommand extends Command
                 $data['queues'][] = [
                     'queue_name' => $queueName,
                     'queue_id' => $queueId,
-                    'issue_count' => $this->getQueueIssueCount($queueId),
+                    'issue_count' => $queue['issueCount'],
                 ];
             }
         }
@@ -45,7 +45,9 @@ class FetchDataFromJiraQueueCommand extends Command
     private function getQueues(): array
     {
         $queueResponse = $this->apiClient()
-            ->get(config('dashboard.tiles.jira_service_queues.jira_host').'/rest/servicedeskapi/servicedesk/4/queue');
+            ->get(config('dashboard.tiles.jira_service_queues.jira_host').'/rest/servicedeskapi/servicedesk/4/queue', [
+                'includeCount' => 'true',
+            ]);
 
         if ($queueResponse->successful()) {
             $queuesData = $queueResponse->json();
@@ -54,35 +56,6 @@ class FetchDataFromJiraQueueCommand extends Command
         }
 
         return [];
-    }
-
-    private function getQueueIssueCount(string $queueId): int
-    {
-        $issuePage = 1;
-        $issuesPerPage = 50;
-        $issueCount = 0;
-
-        do {
-            $this->info("Fetching data for queue {$queueId}, issue page: {$issuePage}");
-            $queueRepo = $this->apiClient()
-                ->get(config('dashboard.tiles.jira_service_queues.jira_host').
-                    "/rest/servicedeskapi/servicedesk/4/queue/{$queueId}/issue", [
-                        'start' => ($issuePage - 1) * $issuesPerPage,
-                        'limit' => $issuesPerPage,
-                    ]);
-
-            if ($queueRepo->successful()) {
-                $queueRepoData = $queueRepo->json();
-                $issueData = $queueRepoData['values'] ?? [];
-                $issueCount += count($issueData);
-            } else {
-                $this->error("Failed to fetch issues for queue {$queueId}. Status: {$queueRepo->status()}");
-                break;
-            }
-
-        } while (count($issueData) === $issuesPerPage);
-
-        return $issueCount;
     }
 
     private function getIssuesHandledTodayCount(): ?int
